@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import db from "../lib/db";
 import { toTimestamp } from "@/lib/db";
-import { Timestamp } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { useState } from "react";
+import db from "../lib/db";
 
-interface Shift {
+export interface Shift {
   startTime: Date | Timestamp;
   endTime: Date | Timestamp;
+  description: string;
+  payMultiplier: number;
   employeeId: string;
 }
 

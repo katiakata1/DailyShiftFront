@@ -1,33 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 import { Header } from "@/components/Header";
 import { ShiftCreationDialog } from "@/components/ShiftCreationDialog";
-import { ConfirmationDialog } from "@/components/ConfirmationDialog";
-import useCreateShift from "@/hooks/useCreateShift";
+import useCreateShift, { Shift } from "@/hooks/useCreateShift";
+import { useSnapshot } from "@/hooks/useSnapshot";
+import { useCallback, useState } from "react";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [startTime, setStartTime] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
+  const [description, setDescription] = useState<string>("");
+  const [payMultiplier, setPayMultiplier] = useState<string>("1");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { createShift } = useCreateShift();
-  const handlePost = (endTime: Date, startTime: Date) => {
-    createShift({
-      endTime,
-      startTime,
-      employeeId: "123",
-    });
-    if (!startDate || !endDate || !startTime || !endTime) return;
-    setIsLoading(true);
-    setShowConfirmation(true);
-    // Simulated API call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  };
+  const snapshot = useSnapshot<Shift[]>("shift");
+
+  const handlePost = (
+    startTime: Date,
+    endTime: Date,
+    description: string,
+    payMultiplier: number,
+  ) =>
+    useCallback(() => {
+      createShift({
+        startTime,
+        endTime,
+        description,
+        payMultiplier,
+        employeeId: "123",
+      });
+      if (!startDate || !endDate || !startTime || !endTime) return;
+      setShowConfirmation(true);
+    }, []);
 
   return (
     <main className="min-h-screen bg-[#F8F9FA]">
@@ -46,11 +53,14 @@ export default function Home() {
               startTime={startTime}
               endDate={endDate}
               endTime={endTime}
-              isLoading={isLoading}
+              payMultiplier={payMultiplier}
+              description={description}
               onStartDateChange={setStartDate}
               onStartTimeChange={setStartTime}
               onEndDateChange={setEndDate}
               onEndTimeChange={setEndTime}
+              onMultiplierChange={setPayMultiplier}
+              onDescriptionChange={setDescription}
               onPost={handlePost}
             />
 
@@ -62,6 +72,15 @@ export default function Home() {
               endDate={endDate}
               endTime={endTime}
             />
+
+            {/* This is shit I'm lazy to explain
+            <div className="flex flex-col gap-3 my-3">
+              {snapshot.length > 0 ? (
+                snapshot.map((shift) => <ShiftSnapshot shift={shift} />)
+              ) : (
+                <></>
+              )}
+              </div> */}
           </div>
         </div>
       </div>
