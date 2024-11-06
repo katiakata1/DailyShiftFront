@@ -17,7 +17,6 @@ interface ShiftCreationDialogProps {
   endTime?: string;
   payMultiplier: string;
   description: string;
-  isLoading: boolean;
   onStartDateChange: (date: Date | undefined) => void;
   onStartTimeChange: (time: string) => void;
   onEndDateChange: (date: Date | undefined) => void;
