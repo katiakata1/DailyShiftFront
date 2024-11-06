@@ -18,13 +18,13 @@ export default function Home() {
   const { createShift } = useCreateShift();
   const snapshot = useSnapshot<Shift[]>("shift");
 
-  const handlePost = (
-    startTime: Date,
-    endTime: Date,
-    description: string,
-    payMultiplier: number,
-  ) =>
-    useCallback(() => {
+  const handlePost = useCallback(
+    (
+      startTime: Date,
+      endTime: Date,
+      description: string,
+      payMultiplier: number,
+    ) => {
       createShift({
         startTime,
         endTime,
@@ -34,7 +34,9 @@ export default function Home() {
       });
       if (!startDate || !endDate || !startTime || !endTime) return;
       setShowConfirmation(true);
-    }, []);
+    },
+    [createShift, setShowConfirmation],
+  );
 
   return (
     <main className="min-h-screen bg-[#F8F9FA]">

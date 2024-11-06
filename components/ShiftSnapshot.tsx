@@ -9,16 +9,24 @@ import {
   CardTitle,
 } from "./ui/card";
 
+type Timestamp = {
+  seconds: number;
+  nanoseconds: number;
+};
+
 export function ShiftSnapshot({ shift, user }: { shift: Shift; user: any }) {
-  //@ts-ignore
-  const startTime = new Date(shift.startTime?.seconds * 1000);
-  //@ts-ignore
-  const endTime = new Date(shift.endTime?.seconds * 1000);
+  const startTime =
+    shift.startTime instanceof Date
+      ? shift.startTime
+      : new Date((shift.startTime as Timestamp).seconds * 1000);
+  const endTime =
+    shift.endTime instanceof Date
+      ? shift.endTime
+      : new Date((shift.endTime as Timestamp).seconds * 1000);
 
   const cardTitle = `${startTime.toLocaleDateString("en-US", {
     month: "short", // Short month name, like "Nov"
     day: "numeric", // Day of the month
-    //@ts-ignore
   })} - ${endTime.toLocaleDateString("en-US", {
     month: "short", // Short month name, like "Nov"
     day: "numeric", // Day of the month
