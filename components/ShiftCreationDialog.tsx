@@ -46,7 +46,7 @@ export function ShiftCreationDialog({
       <DialogContent className="sm:max-w-[600px] lg:h-[78vh] h-[90vh] max-h-[900px]">
         <DialogTitle>Create Shift</DialogTitle>
         <ScrollArea className="h-full pr-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-2">
             <DateTimeSelector
               label="Start"
               date={startDate}
