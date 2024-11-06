@@ -14,10 +14,12 @@ export interface Shift {
 const useCreateShift = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [docRefId, setDocRefId] = useState<string | null>(null);
 
   const addShift = async (shift: Shift) => {
     setLoading(true);
     setError(null);
+    setDocRefId(null);
     console.log(shift);
     shift.startTime ??= toTimestamp(shift.startTime);
     shift.endTime ??= toTimestamp(shift.endTime);
@@ -25,6 +27,7 @@ const useCreateShift = () => {
     try {
       const docRef = await addDoc(collection(db, "shift"), shift);
       console.log("Document written with ID: ", docRef.id);
+      setDocRefId(docRef.id);
     } catch (e: any) {
       console.error("Error adding document: ", e);
       setError(e.message);
@@ -33,7 +36,7 @@ const useCreateShift = () => {
     }
   };
 
-  return { createShift: addShift, loading, error };
+  return { createShift: addShift, loading, error, docRefId };
 };
 
 export default useCreateShift;

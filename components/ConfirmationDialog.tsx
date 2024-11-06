@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useSnapshot } from "@/hooks/useSnapshot";
 import { faker } from "@faker-js/faker";
@@ -14,6 +14,7 @@ interface ConfirmationDialogProps {
   startTime?: string;
   endDate?: Date;
   endTime?: string;
+  shiftId: string | null;
 }
 
 export function ConfirmationDialog({
@@ -23,20 +24,14 @@ export function ConfirmationDialog({
   startTime,
   endDate,
   endTime,
+  shiftId,
 }: ConfirmationDialogProps) {
   const [showLoading, setShowLoading] = useState(true);
-
-  const snapshot = useSnapshot("shift");
-
+  const snapshot = useSnapshot("shift/", shiftId);
   useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        setShowLoading(false);
-      }, 1000);
-    } else {
-      setShowLoading(true);
-    }
-  }, [open]);
+    if (snapshot) setShowLoading(false);
+    return;
+  }, [snapshot]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -78,7 +73,7 @@ export function ConfirmationDialog({
           )}
 
           <ShiftSnapshot
-            shift={snapshot[0]}
+            shift={snapshot}
             user={{
               prefix: faker.person.prefix(),
               fullName: faker.person.fullName(),

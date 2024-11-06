@@ -3,8 +3,7 @@
 import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 import { Header } from "@/components/Header";
 import { ShiftCreationDialog } from "@/components/ShiftCreationDialog";
-import useCreateShift, { Shift } from "@/hooks/useCreateShift";
-import { useSnapshot } from "@/hooks/useSnapshot";
+import useCreateShift from "@/hooks/useCreateShift";
 import { useCallback, useState } from "react";
 
 export default function Home() {
@@ -15,8 +14,7 @@ export default function Home() {
   const [description, setDescription] = useState<string>("");
   const [payMultiplier, setPayMultiplier] = useState<string>("1");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const { createShift } = useCreateShift();
-  const snapshot = useSnapshot<Shift[]>("shift");
+  const { createShift, docRefId } = useCreateShift();
 
   const handlePost = useCallback(
     (
@@ -67,6 +65,7 @@ export default function Home() {
             />
 
             <ConfirmationDialog
+              shiftId={docRefId}
               open={showConfirmation}
               onOpenChange={setShowConfirmation}
               startDate={startDate}

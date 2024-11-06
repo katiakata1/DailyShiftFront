@@ -1,20 +1,19 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import db from "../lib/db";
 
-export function useSnapshot<T>(collectionName: string) {
-  const [data, setData] = useState([]);
+export function useSnapshot<T>(
+  collectionName: string,
+  docRefId: string | undefined | null,
+) {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
+    if (!docRefId) return;
     const unsub = onSnapshot(
-      collection(db, collectionName),
+      doc(db, collectionName + docRefId),
       (snapshot) => {
-        const newData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(newData);
-        setData(newData as any);
+        setData(snapshot.data() as any);
       },
       (error) => {
         console.error("Error fetching Firestore data:", error);
@@ -22,7 +21,7 @@ export function useSnapshot<T>(collectionName: string) {
     );
 
     return unsub;
-  }, [collectionName]);
+  }, [collectionName, docRefId]);
 
   return data;
 }

@@ -14,7 +14,15 @@ type Timestamp = {
   nanoseconds: number;
 };
 
-export function ShiftSnapshot({ shift, user }: { shift: Shift; user: any }) {
+export function ShiftSnapshot({
+  shift,
+  user,
+}: {
+  shift: Shift | null;
+  user: any;
+}) {
+  console.log(shift);
+  if (!shift) return <></>;
   const startTime =
     shift.startTime instanceof Date
       ? shift.startTime
