@@ -10,7 +10,9 @@ import {
 } from "./ui/card";
 
 export function ShiftSnapshot({ shift, user }: { shift: Shift; user: any }) {
+  //@ts-ignore
   const startTime = new Date(shift.startTime?.seconds * 1000);
+  //@ts-ignore
   const endTime = new Date(shift.endTime?.seconds * 1000);
 
   const cardTitle = `${startTime.toLocaleDateString("en-US", {
