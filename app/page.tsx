@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { ShiftCreationDialog } from "@/components/ShiftCreationDialog";
 import { ConfirmationDialog } from "@/components/ConfirmationDialog";
+import useCreateShift from "@/hooks/useCreateShift";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,8 +13,13 @@ export default function Home() {
   const [startTime, setStartTime] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
   const [showConfirmation, setShowConfirmation] = useState(false);
-
-  const handlePost = () => {
+  const { createShift } = useCreateShift();
+  const handlePost = (endTime: Date, startTime: Date) => {
+    createShift({
+      endTime,
+      startTime,
+      employeeId: "123",
+    });
     if (!startDate || !endDate || !startTime || !endTime) return;
     setIsLoading(true);
     setShowConfirmation(true);

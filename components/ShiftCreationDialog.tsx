@@ -18,7 +18,7 @@ interface ShiftCreationDialogProps {
   onStartTimeChange: (time: string) => void;
   onEndDateChange: (date: Date | undefined) => void;
   onEndTimeChange: (time: string) => void;
-  onPost: () => void;
+  onPost: (startTime: Date, endTime: Date) => void;
 }
 
 export function ShiftCreationDialog({
@@ -63,7 +63,13 @@ export function ShiftCreationDialog({
             />
           </div>
           <Button
-            onClick={onPost}
+            onClick={() => {
+              if (!startDate || !endDate || !startTime || !endTime) {
+                console.error("Invalid date/time");
+                return;
+              }
+              onPost(startDate, endDate);
+            }}
             disabled={
               !startDate || !endDate || !startTime || !endTime || isLoading
             }
