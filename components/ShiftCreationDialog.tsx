@@ -53,11 +53,11 @@ export function ShiftCreationDialog({
           className="w-full bg-[#FF4D2D] hover:bg-[#E63D1F] text-white"
           size="lg"
         >
-          Create New Shift
+          Create New Opportunity
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] lg:h-[88vh] h-[90vh] max-h-[900px]">
-        <DialogTitle>Create Shift</DialogTitle>
+        <DialogTitle>Create Opportunity</DialogTitle>
         <ScrollArea className=" ">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-2">
             <DateTimeSelector
@@ -100,7 +100,7 @@ export function ShiftCreationDialog({
             disabled={!startDate || !endDate || !startTime || !endTime}
             className="w-full bg-[#FF4D2D] hover:bg-[#E63D1F] text-white mt-4"
           >
-            Post Shift
+            Continue
           </Button>
         </ScrollArea>
       </DialogContent>
