@@ -29,7 +29,8 @@ export function ConfirmationDialog({
   const [showLoading, setShowLoading] = useState(true);
   const snapshot = useSnapshot("shift/", shiftId);
   useEffect(() => {
-    if (snapshot) setShowLoading(false);
+    console.log(showLoading);
+    if (snapshot?.["accepted_users"]) setShowLoading(false);
     return;
   }, [snapshot]);
 
@@ -71,16 +72,17 @@ export function ConfirmationDialog({
               </p>
             </div>
           )}
-
-          <ShiftSnapshot
-            shift={snapshot}
-            user={{
-              prefix: faker.person.prefix(),
-              fullName: faker.person.fullName(),
-              jobTitle: faker.person.jobTitle(),
-              email: faker.internet.email(),
-            }}
-          />
+          {snapshot?.["accepted_users"] && (
+            <ShiftSnapshot
+              shift={snapshot}
+              user={{
+                prefix: "",
+                fullName: snapshot?.["accepted_users"]?.[0]?.["fullName"],
+                jobTitle: snapshot?.["accepted_users"]?.[0]?.["role"],
+                email: snapshot?.["accepted_users"]?.[0]?.["phoneNumber"],
+              }}
+            />
+          )}
         </div>
       </DialogContent>
     </Dialog>
