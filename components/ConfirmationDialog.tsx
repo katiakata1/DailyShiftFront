@@ -62,7 +62,7 @@ export function ConfirmationDialog({
 
           {startDate && startTime && endDate && endTime && (
             <div className="mt-4 text-sm text-gray-600 text-center">
-              <p>Creating shift from:</p>
+              <p>Creating opportunity from:</p>
               <p className="font-medium">
                 {format(startDate, "MMM dd, yyyy")} at {startTime}
               </p>
